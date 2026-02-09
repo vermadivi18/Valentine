@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    position: relative;
+    width: 300px;
+    height:400px;
+}
+
+/* Fixed Image Frame */
+.imgBox {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 15px auto;
+    margin-top:15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imgBox img {
+    width: 200px;
+    height: 250px;
+    object-fit: contain;
+    object-position: center;
+}
+
+h2 {
+    color: #ff4b6e;
+}
+
+.buttons {
+    position: relative;
+    height: 120px;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    position: absolute;
+}
+
+#yesBtn {
+    background: #ff4b6e;
+    color: white;
+    left: 25%;
+}
+
+#noBtn {
+    background: #444;
+    color: white;
+    left: 55%;
+    
+}
+
+.message {
+    margin-top: 10px;
+    font-weight: bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="imgBox">
+        <img id="kittyImg" src="cat_main.jpg" alt="Kitty">
+    </div>
+    <br>
+    <h2 id="questionText">Will you be my Valentine?</h2>
+
+    <div class="buttons" id="buttonsBox">
+        <button id="yesBtn">Yes</button>
+        <button id="noBtn">No</button>
+    </div>
+
+    <div class="message" id="message"></div>
+
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const kittyImg = document.getElementById("kittyImg");
+const message = document.getElementById("message");
+const questionText = document.getElementById("questionText");
+const container = document.querySelector(".container");
+const buttonsBox = document.getElementById("buttonsBox");
+
+function moveNoButton() {
+
+    const padding = 20;
+
+    const containerRect = container.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
+
+    const maxX = containerRect.width - btnRect.width - padding;
+    const maxY = containerRect.height - btnRect.height - padding;
+
+    const minX = padding;
+    const minY = padding;
+
+    let newX, newY;
+
+    do {
+        newX = Math.random() * (maxX - minX) + minX;
+        newY = Math.random() * (maxY - minY) + minY;
+    }
+    while (
+        Math.abs(newX - (btnRect.left - containerRect.left)) < btnRect.width &&
+        Math.abs(newY - (btnRect.top - containerRect.top)) < btnRect.height
+    );
+
+    noBtn.style.left = newX + "px";
+    noBtn.style.top = newY + "px";
+}
+
+noBtn.addEventListener("mouseover", () => {
+    moveNoButton();
+    kittyImg.src = "angry_kitty.gif";
+    questionText.innerText = "How dare you?";
+    message.innerText = "Wanna die? Choose Again!";
+});
+
+noBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    moveNoButton();
+});
+
+yesBtn.addEventListener("click", () => {
+
+    kittyImg.src = "bubu.gif";
+    questionText.innerText = "Awwww...";
+    message.innerText = "I know, you'll choose this option only.";
+
+    buttonsBox.style.display = "none";
+});
+</script>
+
+</body>
+</html>
